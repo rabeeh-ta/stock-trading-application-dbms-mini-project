@@ -33,7 +33,7 @@ CREATE TABLE COMPANY_INDEXES(
     price INTEGER, -- todays price of the stock
     change INTEGER, -- yesturday and today price change
     FOREIGN KEY (cuid) REFERENCES US_COMPANIES(usuid),
-    FOREIGN KEY (cuid) REFERENCES IND_COMPANIES(inuid),
+    FOREIGN KEY (cuid) REFERENCES IND_COMPANIES(inuid)
 );
 
 -- will have each info about each transactions BUY or SELL and the qty and amount at which the order was exicuted.
@@ -42,13 +42,11 @@ CREATE TABLE TRANSACTIONS(
     uuid TEXT,
     ticker TEXT,
     order_type TEXT, -- buy or sell
-    date TEXT, -- (2018-04-02)
+    date TEXT, -- ('yyyy-MM-dd HH:mm:ss') ISO8601
     qty INTEGER,
     price INTEGER, -- price of stock while the transaction
-    FOREIGN KEY (uuid) REFERENCES USERS(uuid),
-    FOREIGN KEY (cuid) REFERENCES US_COMPANIES(usuid),
-    FOREIGN KEY (cuid) REFERENCES IND_COMPANIES(inuid),
-)
+    FOREIGN KEY (uuid) REFERENCES USERS(uuid)
+);
 
 -- the funds that the users have added to their account for trading the stocks
 CREATE TABLE FUND_TRANSACTIONS(
@@ -56,5 +54,5 @@ CREATE TABLE FUND_TRANSACTIONS(
     uuid TEXT, -- who made the deposite
     type TEXT, -- DEPosite or WITHdrawal 
     amount INTEGER,
-    date TEXT -- (2018-04-02)
+    date TEXT -- ('yyyy-MM-dd HH:mm:ss') ISO8601
 )
