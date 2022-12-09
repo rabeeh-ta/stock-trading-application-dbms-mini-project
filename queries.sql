@@ -12,7 +12,9 @@ CREATE TABLE USERS(
 CREATE TABLE US_COMPANIES(
     usuid TEXT PRIMARY KEY NOT NULL,
     name TEXT,
-    ticker TEXT,
+    symbol TEXT,
+    industry TEXT,
+    description TEXT,
     no_equity REAL -- total no of outstanding shares to calculate the marketcap
 );
 
@@ -20,7 +22,9 @@ CREATE TABLE US_COMPANIES(
 CREATE TABLE IND_COMPANIES(
     inuid TEXT PRIMARY KEY NOT NULL,
     name TEXT,
-    ticker TEXT,
+    symbol TEXT,
+    industry TEXT,
+    description TEXT,
     no_equity REAL
 );
 
@@ -28,7 +32,7 @@ CREATE TABLE IND_COMPANIES(
 CREATE TABLE COMPANY_INDEXES(
     cuid TEXT PRIMARY KEY NOT NULL,
     name TEXT,
-    ticker TEXT,  -- ticker symbol of stock 
+    symbol TEXT,  -- symbol symbol of stock 
     no_equity REAL,
     price INTEGER, -- todays price of the stock
     change INTEGER, -- yesturday and today price change
@@ -40,7 +44,7 @@ CREATE TABLE COMPANY_INDEXES(
 CREATE TABLE TRANSACTIONS(
     tuid TEXT PRIMARY KEY NOT NULL,
     uuid TEXT,
-    ticker TEXT,
+    symbol TEXT,
     order_type TEXT, -- buy or sell
     date TEXT, -- ('yyyy-MM-dd HH:mm:ss') ISO8601
     qty INTEGER,
@@ -55,4 +59,8 @@ CREATE TABLE FUND_TRANSACTIONS(
     type TEXT, -- DEPosite or WITHdrawal 
     amount INTEGER,
     date TEXT -- ('yyyy-MM-dd HH:mm:ss') ISO8601
-)
+);
+
+
+--! INSERT QUERIES
+INSERT INTO US_COMPANIES VALUES("","TESLA INC", "TESLA", 21323132132124)
