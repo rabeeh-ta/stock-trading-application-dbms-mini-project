@@ -62,10 +62,18 @@ function insertIndCompany(name, symbol, industry) {
   db.close();
 }
 
-fs.createReadStream(path.join(__dirname, 'nifty100.csv'))
+fs.createReadStream(path.join(__dirname, 'sandp500.csv'))
   .pipe(csv.parse({ headers: true }))
   .on('data', (row) => {
-    insertIndCompany(row['Shortname'], row['Symbol'], row['Industry']);
+    let descriptionArr = row['Longbusinesssummary'].split('.');
+    let shortDescription = [descriptionArr[0], descriptionArr[1]].join();
+    console.log(' ');
+    insertUsCompany(
+      row['Shortname'],
+      row['Symbol'],
+      row['Industry'],
+      shortDescription
+    );
   })
   .on('end', () => {
     console.log('done uploading');
