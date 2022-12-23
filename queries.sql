@@ -4,8 +4,8 @@ CREATE TABLE USERS(
     first_name TEXT ,
     last_name TEXT,
     email TEXT,
-    password TEXT,
-    db_uri  TEXT  -- convert img to dataURI and store in db
+    password_hash TEXT,
+    dp_uri  TEXT  -- convert img to dataURI and store in db
 );
 
 -- holds data of s&p500 companies

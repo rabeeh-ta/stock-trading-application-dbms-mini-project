@@ -1,19 +1,27 @@
 {
-  "name": "stock-trading-application-dbms",
+  "name": "Stock-Trading-Apllication",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Paper trade your favorite stocks.",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": "https://github.com/rabeeh-ta/stock-trading-application-dbms-mini-project",
+  "keywords": [
+    "stock",
+    "trade",
+    "electron",
+    "sqlite",
+    "react"
+  ],
+  "author": "Rabeeh T A",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^22.0.0"
+  },
   "dependencies": {
-    "csv-parser": "^3.0.0",
-    "fast-csv": "^4.3.6",
-    "nanoid": "^4.0.0",
-    "sqlite3": "^5.1.4"
-  },
-  "type": "module"
+    "bcrypt": "^5.1.0",
+    "short-uuid": "^4.2.2",
+    "sql.js": "^1.8.0"
+  }
 }
