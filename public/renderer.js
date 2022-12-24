@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  window.backend
-    .login('rabeeh@gmail.com', 'passwor123')
-    .then((res, rej) => console.log(res));
-});
+const ReactAppFromCDN = () => {
+  return <div>My React App with CDN</div>;
+};
+ReactDOM.render(<ReactAppFromCDN />, document.querySelector('#root'));
