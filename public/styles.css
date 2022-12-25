@@ -1,3 +1,39 @@
-/* styles.css */
+/* logIn page */
 
-/* Add styles here to customize the appearance of your app */
+*{
+    background-color: #FAFAFA;
+}
+
+#LoginPage{
+display: flex;
+}
+
+nav{
+    background-color: #F5F5DC;
+    width: 100px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+nav img{
+    background-color: inherit;
+    width: 70px;
+}
+nav ul{
+    background-color: inherit;
+}
+nav li{
+    background-color: inherit;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.LoginView{
+    width: 80%;
+    max-height: 100vh;
+    padding: 80px 50px;
+    overflow-x: scroll;
+}

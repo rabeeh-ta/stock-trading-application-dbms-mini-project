@@ -6,22 +6,63 @@
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
   <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' ; script-src 'self' ; style-src 'self' "> -->
 
-  <!-- React.js CDN docs -->
+  <!-- React.js / Babel CDN docs -->
   <script src="./src/reactDev.js" crossorigin></script>
   <script src="./src/reactDocDev.js" crossorigin></script>
-  <!-- bable cdn -->
   <script src='./src/babel.js'></script>
+  <!-- <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script> -->
 
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link href="./styles.css" rel="stylesheet">
   <title>Login</title>
 
 </head>
 
 <body>
-  <h1>Hello Wold!</h1>
+  <div id="LoginPage"></div>
 
-  <div id="root"></div>
-  <script src="./renderer.js" type="text/babel"></script>
+  <script type="text/babel">
+
+    const Navbar = () => {
+      return (
+        <nav>
+          <ul>
+            <li>home</li>
+            <li>Trade</li>
+            <li>Portfolio</li>
+            <li>History</li>
+          </ul>
+
+          <img src="./src/logo.png" alt="" />
+        </nav>
+      )
+    }
+
+    const LoginView = () => {
+      return (
+        <div className="LoginView">
+          <h2 className="is-size-1">Welcome</h2>
+          <form action="">
+            <input className="input mt-5" type="text" placeholder="Email" />
+            <input className="input mt-5" type="text" placeholder="Password" />
+            <button className="button is-success mt-5">Login</button>
+          </form>
+
+        </div>
+      )
+    }
+
+
+    ReactDOM.render(
+      <React.StrictMode>
+        <Navbar />
+        <LoginView />
+      </React.StrictMode>
+      , document.getElementById('LoginPage'));
+  </script>
 
 
 
