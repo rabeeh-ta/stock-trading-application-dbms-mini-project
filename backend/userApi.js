@@ -68,6 +68,7 @@ const login = (email, password) => {
             //* password correct
             if (result) {
               return res({
+                status: 200,
                 uuid: queryResult.uuid,
                 first_name: queryResult.first_name,
                 last_name: queryResult.last_name,
@@ -76,14 +77,14 @@ const login = (email, password) => {
               });
               //* password wrong
             } else {
-              return res('wrong password');
+              return res({'status':205,'message': 'Wrong Password.'});
             }
           }
         );
 
         //* no user found with email
       } else {
-        return res('No user found, Register');
+        return res({"status":205,"message":'No user found, Sign Up.'});
       }
     });
   });

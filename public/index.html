@@ -15,7 +15,7 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script> -->
 
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="./src/bulmaMin.css">
   <link href="./styles.css" rel="stylesheet">
   <title>Login</title>
 
@@ -42,14 +42,42 @@
     }
 
     const LoginView = () => {
+      const [user, setUser] = React.useState([{
+        "email":"",
+        "password":""
+      }])
+      const [feedback, setFeedback] = React.useState({"status":0, "message":"some text"})
+
+      function loginFormHandle(e){
+        setUser((prevData)=>{
+          return ({
+            ...prevData,
+            [e.target.name]: e.target.value
+          })
+        })
+        console.log(user)
+      }
+
+      function loginUser(e){
+        e.preventDefault();
+        window.backend.login(user.email, user.password).then((res)=>{
+          if(res.status != 200) setFeedback(res);
+          
+        })
+      }
+      
       return (
         <div className="LoginView">
           <h2 className="is-size-1">Welcome</h2>
-          <form action="">
-            <input className="input mt-5" type="text" placeholder="Email" />
-            <input className="input mt-5" type="text" placeholder="Password" />
-            <button className="button is-success mt-5">Login</button>
+          <form >
+            <input className="input mt-5" onChange={loginFormHandle} name="email" value={user.email} type="text" placeholder="Email" />
+            <input className="input mt-5" onChange={loginFormHandle} name="password"value={user.password} type="text" placeholder="Password" />
+            <button className="button is-success mt-5" onClick={loginUser}>Login</button>
+            
           </form>
+          {feedback.status == 205?  
+          <span className="is-size-6 has-text-danger mt-5">{feedback.message}</span>:null
+          }
 
         </div>
       )
