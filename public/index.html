@@ -30,10 +30,7 @@
       return (
         <nav>
           <ul>
-            <li>home</li>
-            <li>Trade</li>
-            <li>Portfolio</li>
-            <li>History</li>
+
           </ul>
 
           <img src="./src/logo.png" alt="" />
@@ -68,11 +65,12 @@
       
       return (
         <div className="LoginView">
-          <h2 className="is-size-1">Welcome</h2>
+          <h2 className="is-size-2">Welcome</h2>
           <form >
             <input className="input mt-5" onChange={loginFormHandle} name="email" value={user.email} type="text" placeholder="Email" />
             <input className="input mt-5" onChange={loginFormHandle} name="password"value={user.password} type="text" placeholder="Password" />
             <button className="button is-success mt-5" onClick={loginUser}>Login</button>
+            <button className="button is-active  is-outlined m-5"><a href="./signup.html">Sign Up</a> </button>
             
           </form>
           {feedback.status == 205?  
