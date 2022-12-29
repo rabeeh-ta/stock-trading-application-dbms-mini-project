@@ -24,29 +24,12 @@
 <body>
   <div id="SignUp"></div>
 
+  <script src="./components/Navbar.js" type="text/babel"></script>
   <script type="text/babel">
-
-    const Navbar = () => {
-      return (
-        <nav>
-          <ul>
-            <li>home</li>
-            <li>Trade</li>
-            <li>Portfolio</li>
-            <li>History</li>
-          </ul>
-
-          <img src="./src/logo.png" alt="" />
-        </nav>
-      )
-    }
-
-
-
 
     ReactDOM.render(
       <React.StrictMode>
-        <Navbar />
+        <Navbar name={true} />
       </React.StrictMode>
       , document.getElementById('SignUp'));
   </script>

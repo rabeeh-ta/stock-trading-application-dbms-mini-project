@@ -30,6 +30,9 @@ nav li{
     margin-top: 20px;
     font-weight: bold;
 }
+nav li:hover{
+   cursor: pointer;
+}
 
 .LoginView{
     width: 80%;

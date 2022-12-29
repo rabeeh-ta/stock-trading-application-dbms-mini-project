@@ -1,13 +1,18 @@
-export function Navbar() {
-  const [meme, setMeme] = React.useState(0);
-
+function Navbar(props) {
   return (
     <nav>
-      {meme}
-      <img src="../src/logo.png" alt="" />
-      <ul>
-        <li>home</li>
-      </ul>
+      {props.name ? (
+        <ul>
+          <li>home</li>
+          <li>Trade</li>
+          <li>Portfolio</li>
+          <li>History</li>
+        </ul>
+      ) : (
+        <ul></ul>
+      )}
+
+      <img src="./src/logo.png" alt="" />
     </nav>
   );
 }
