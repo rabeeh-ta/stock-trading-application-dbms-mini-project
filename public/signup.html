@@ -22,16 +22,72 @@
 </head>
 
 <body>
-  <div id="SignUp"></div>
+  <div id="SignUpPage"></div>
 
   <script src="./components/Navbar.js" type="text/babel"></script>
   <script type="text/babel">
 
+    const SignUpView = () => {
+      const [user, setUser] = React.useState({
+        "fname": "",
+        "lname": "",
+        "email": "",
+        "password": "",
+        "rePassword": ""
+      })
+      const [feedback, setFeedback] = React.useState({ "status": 0, "message": "some text" })
+
+      function loginFormHandle(e) {
+        setUser((prevData) => {
+          return ({
+            ...prevData,
+            [e.target.name]: e.target.value.trim()
+          })
+        })
+        console.log(user)
+      }
+
+      function registerUser(e) {
+        e.preventDefault();
+        //? form validation
+        for (var value in user) {
+          if (user[value] === '') return setFeedback((prevData) => ({ "status": 1, "message": "Fill all the Fields." }))
+        }
+        if (user.password != user.rePassword) return setFeedback((prevData) => ({ "status": 1, "message": "Passwords does not match." }))
+
+        window.backend.createUser(user.fname, user.lname, user.email, user.password, "dp_uri now not implemented").then((res) => {
+          if (res.status != 200) setFeedback(res);
+        })
+      }
+
+      return (
+        <div className="FormView">
+          <h2 className="is-size-2">Sign Up</h2>
+          <form >
+            <input className="input mt-5" onChange={loginFormHandle} name="fname" value={user.fname} type="text" placeholder="First Name" />
+            <input className="input mt-5" onChange={loginFormHandle} name="lname" value={user.lname} type="text" placeholder="Last Name" />
+            <input className="input mt-5" onChange={loginFormHandle} name="email" value={user.email} type="text" placeholder="Email" />
+            <input className="input mt-5" onChange={loginFormHandle} name="password" value={user.password} type="text" placeholder="Password" />
+            <input className="input mt-5" onChange={loginFormHandle} name="rePassword" value={user.rePassword} type="text" placeholder="Repeat Password" />
+            <button className="button is-success mt-5" onClick={registerUser}>Create Account</button>
+
+
+          </form>
+          {feedback.status != 0 ?
+            <i><span className="is-size-6 has-text-danger mt-5">{feedback.message}</span></i> : null
+          }
+
+        </div>
+      )
+    }
+
+
     ReactDOM.render(
       <React.StrictMode>
-        <Navbar name={true} />
+        <Navbar name={false} />
+        <SignUpView />
       </React.StrictMode>
-      , document.getElementById('SignUp'));
+      , document.getElementById('SignUpPage'));
   </script>
 
 

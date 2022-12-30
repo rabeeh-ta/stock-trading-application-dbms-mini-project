@@ -28,17 +28,17 @@
   <script type="text/babel">
 
     const LoginView = () => {
-      const [user, setUser] = React.useState([{
+      const [user, setUser] = React.useState({
         "email": "",
         "password": ""
-      }])
+      })
       const [feedback, setFeedback] = React.useState({ "status": 0, "message": "some text" })
 
       function loginFormHandle(e) {
         setUser((prevData) => {
           return ({
             ...prevData,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value.trim()
           })
         })
         console.log(user)
@@ -47,14 +47,15 @@
       function loginUser(e) {
         e.preventDefault();
         window.backend.login(user.email, user.password).then((res) => {
+          console.log(res)
           if (res.status != 200) setFeedback(res);
 
         })
       }
 
       return (
-        <div className="LoginView">
-          <h2 className="is-size-2">Welcome</h2>
+        <div className="FormView">
+          <h2 className="is-size-2">Log In</h2>
           <form >
             <input className="input mt-5" onChange={loginFormHandle} name="email" value={user.email} type="text" placeholder="Email" />
             <input className="input mt-5" onChange={loginFormHandle} name="password" value={user.password} type="text" placeholder="Password" />
@@ -62,8 +63,8 @@
             <button className="button is-active  is-outlined m-5"><a href="./signup.html">Sign Up</a> </button>
 
           </form>
-          {feedback.status == 205 ?
-            <span className="is-size-6 has-text-danger mt-5">{feedback.message}</span> : null
+          {feedback.status != 0 ?
+            <i><span className="is-size-6 has-text-danger mt-5">{feedback.message}</span></i> : null
           }
 
         </div>

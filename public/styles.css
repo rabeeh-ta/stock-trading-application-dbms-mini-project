@@ -4,7 +4,7 @@
     background-color: #FAFAFA;
 }
 
-#LoginPage{
+#LoginPage, #SignUpPage{
 display: flex;
 }
 
@@ -24,6 +24,7 @@ nav img{
 }
 nav ul{
     background-color: inherit;
+    margin-top:50px;
 }
 nav li{
     background-color: inherit;
@@ -34,8 +35,8 @@ nav li:hover{
    cursor: pointer;
 }
 
-.LoginView{
-    width: 80%;
+.FormView{
+    max-width: 500px;
     max-height: 100vh;
     padding: 80px 50px;
     overflow-x: scroll;

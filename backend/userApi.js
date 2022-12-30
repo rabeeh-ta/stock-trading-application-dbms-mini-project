@@ -6,35 +6,49 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 //* create USER / SIGNUP / REGISTER
-const createUser = (fName, lName, email, password, uri) => {
+const createUser = (fName, lName, email, password, dp_uri) => {
   return new Promise((res, rej) => {
     initSqlJs().then(function (SQL) {
       //! read the database to the JS memory
       const filebuffer = fs.readFileSync('./backend/database.sqlite'); // location relative to the root file where the application runs
       const db = new SQL.Database(filebuffer);
 
-      //? query and operation logic
-      bcrypt.hash(password, saltRounds, function (err, hash) {
-        let query = db.run(
-          'INSERT INTO USERS values($uuid, $fName, $lName, $email, $password_hash, $dp_uri)',
-          {
-            $uuid: shortUuid.generate(),
-            $fName: fName,
-            $lName: lName,
-            $email: email,
-            $password_hash: hash,
-            $dp_uri: uri,
-          }
-        );
+      //? check if user already exists
+      let query = db.prepare('SELECT * FROM USERS WHERE email = $email ;');
+      let queryResult = query.getAsObject({
+        $email: email,
+      });
 
+      if (!queryResult.uuid) {
+        //? register the user.
+        bcrypt.hash(password, saltRounds, function (err, hash) {
+          let query = db.run(
+            'INSERT INTO USERS values($uuid, $fName, $lName, $email, $password_hash, $dp_uri)',
+            {
+              $uuid: shortUuid.generate(),
+              $fName: fName,
+              $lName: lName,
+              $email: email,
+              $password_hash: hash,
+              $dp_uri: dp_uri,
+            }
+          );
+          //! write the database file back to storage from JS memory
+          var data = db.export();
+          var buffer = new Buffer.from(data);
+          fs.writeFileSync('./backend/database.sqlite', buffer);
+          //? function return  user created
+          return res({ status: 201, message: `User ${fName} Created.` });
+        });
+      } else {
+        //? user already exists
         //! write the database file back to storage from JS memory
         var data = db.export();
         var buffer = new Buffer.from(data);
         fs.writeFileSync('./backend/database.sqlite', buffer);
-
-        //? function return
-        return res(`New User ${fName} created`);
-      });
+        //? function return email already exists
+        return res({ status: 204, message: `User ${email} already exists.` });
+      }
     });
   });
 };
@@ -77,14 +91,14 @@ const login = (email, password) => {
               });
               //* password wrong
             } else {
-              return res({'status':205,'message': 'Wrong Password.'});
+              return res({ status: 205, message: 'Wrong Password.' });
             }
           }
         );
 
         //* no user found with email
       } else {
-        return res({"status":205,"message":'No user found, Sign Up.'});
+        return res({ status: 205, message: 'No user found, Sign Up.' });
       }
     });
   });
