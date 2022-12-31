@@ -12,6 +12,7 @@ const createUser = (fName, lName, email, password, dp_uri) => {
       //! read the database to the JS memory
       const filebuffer = fs.readFileSync('./backend/database.sqlite'); // location relative to the root file where the application runs
       const db = new SQL.Database(filebuffer);
+      const userUuid = shortUuid.generate();
 
       //? check if user already exists
       let query = db.prepare('SELECT * FROM USERS WHERE email = $email ;');
@@ -25,7 +26,7 @@ const createUser = (fName, lName, email, password, dp_uri) => {
           let query = db.run(
             'INSERT INTO USERS values($uuid, $fName, $lName, $email, $password_hash, $dp_uri)',
             {
-              $uuid: shortUuid.generate(),
+              $uuid: userUuid,
               $fName: fName,
               $lName: lName,
               $email: email,
@@ -38,7 +39,11 @@ const createUser = (fName, lName, email, password, dp_uri) => {
           var buffer = new Buffer.from(data);
           fs.writeFileSync('./backend/database.sqlite', buffer);
           //? function return  user created
-          return res({ status: 201, message: `User ${fName} Created.` });
+          return res({
+            status: 0,
+            message: `User ${fName} Created.`,
+            uuid: userUuid,
+          });
         });
       } else {
         //? user already exists
@@ -47,7 +52,10 @@ const createUser = (fName, lName, email, password, dp_uri) => {
         var buffer = new Buffer.from(data);
         fs.writeFileSync('./backend/database.sqlite', buffer);
         //? function return email already exists
-        return res({ status: 204, message: `User ${email} already exists.` });
+        return res({
+          status: 1,
+          message: `User ${email} already exists.`,
+        });
       }
     });
   });
@@ -82,7 +90,7 @@ const login = (email, password) => {
             //* password correct
             if (result) {
               return res({
-                status: 200,
+                status: 0,
                 uuid: queryResult.uuid,
                 first_name: queryResult.first_name,
                 last_name: queryResult.last_name,
@@ -91,14 +99,14 @@ const login = (email, password) => {
               });
               //* password wrong
             } else {
-              return res({ status: 205, message: 'Wrong Password.' });
+              return res({ status: 1, message: 'Wrong Password.' });
             }
           }
         );
 
         //* no user found with email
       } else {
-        return res({ status: 205, message: 'No user found, Sign Up.' });
+        return res({ status: 1, message: 'No user found, Sign Up.' });
       }
     });
   });

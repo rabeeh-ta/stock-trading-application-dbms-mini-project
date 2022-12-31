@@ -56,7 +56,9 @@
         if (user.password != user.rePassword) return setFeedback((prevData) => ({ "status": 1, "message": "Passwords does not match." }))
 
         window.backend.createUser(user.fname, user.lname, user.email, user.password, "dp_uri now not implemented").then((res) => {
-          if (res.status != 200) setFeedback(res);
+          console.log(res)
+          if (res.status != 0) return setFeedback(res); // some error happened.
+          sessionStorage.setItem("uuid", res.uuid); // user created and id saved to storage.
         })
       }
 

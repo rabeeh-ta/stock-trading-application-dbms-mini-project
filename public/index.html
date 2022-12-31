@@ -48,8 +48,8 @@
         e.preventDefault();
         window.backend.login(user.email, user.password).then((res) => {
           console.log(res)
-          if (res.status != 200) setFeedback(res);
-
+          if (res.status != 0) return setFeedback(res); //?some error happened 
+          sessionStorage.setItem("uuid", res.uuid) //user saved to storage
         })
       }
 
