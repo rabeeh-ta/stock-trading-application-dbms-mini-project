@@ -3,10 +3,10 @@ function Navbar(props) {
     <nav>
       {props.name ? (
         <ul>
-          <li>home</li>
+          <li>Home</li>
           <li>Trade</li>
           <li>Portfolio</li>
-          <li>History</li>
+          <li>Funds</li>
         </ul>
       ) : (
         <ul></ul>
