@@ -1,12 +1,14 @@
 function Navbar(props) {
   return (
     <nav>
-      {props.name ? (
+      {props.page ? (
         <ul>
-          <li>Home</li>
-          <li>Trade</li>
-          <li>Portfolio</li>
-          <li>Funds</li>
+          <li className={props.page == 'Home' ? 'activeTab' : ''}>Home</li>
+          <li className={props.page == 'Trade' ? 'activeTab' : ''}>Trade</li>
+          <li className={props.page == 'Portfolio' ? 'activeTab' : ''}>
+            Portfolio
+          </li>
+          <li className={props.page == 'Funds' ? 'activeTab' : ''}>Funds</li>
         </ul>
       ) : (
         <ul></ul>

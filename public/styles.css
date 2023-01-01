@@ -1,4 +1,4 @@
-/* logIn page */
+/* logIn signUp page */
 
 *{
     background-color: #FAFAFA;
@@ -6,11 +6,23 @@
 
 #LoginPage, #SignUpPage, #HomePage{
 display: flex;
+
 }
 
+.formView{
+    max-width: 500px;
+    max-height: 100vh;
+    padding: 80px 50px;
+    overflow-x: scroll;
+}
+.container{
+    margin: 20px;
+    width: 100%;
+}
+/* navigation component */
 nav{
     background-color: #F5F5DC;
-    width: 100px;
+    width: 120px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -28,16 +40,34 @@ nav ul{
 }
 nav li{
     background-color: inherit;
+    font-size: 19px;
     margin-top: 20px;
     font-weight: bold;
 }
 nav li:hover{
    cursor: pointer;
+   color: #86C8BC;
+    font-size: 20px;
+}
+.activeTab{
+    color: #439A97;
+
 }
 
-.FormView{
-    max-width: 500px;
-    max-height: 100vh;
-    padding: 80px 50px;
-    overflow-x: scroll;
+/* Home page */
+
+.marketSelectionTab{
+    background-color: aqua;
+    font-size: 16px;
+    font-weight:500;
+    justify-self: center;
+    width: 100%;
+}
+.marketSelectionTab ul{
+    display: flex;
+    justify-content: center;
+}
+.marketSelectionTab li{
+
+    margin-right:10px;
 }

@@ -49,12 +49,13 @@
         window.backend.login(user.email, user.password).then((res) => {
           console.log(res)
           if (res.status != 0) return setFeedback(res); //?some error happened 
-          sessionStorage.setItem("uuid", res.uuid) //user saved to storage
+          sessionStorage.setItem("uuid", res.uuid); //user saved to storage
+          window.location.replace('./home.html');
         })
       }
 
       return (
-        <div className="FormView">
+        <div className="formView">
           <h2 className="is-size-2">Log In</h2>
           <form >
             <input className="input mt-5" onChange={loginFormHandle} name="email" value={user.email} type="text" placeholder="Email" />

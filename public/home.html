@@ -27,13 +27,27 @@
     <script src="./components/Navbar.js" type="text/babel"></script>
     <script type="text/babel">
 
+        const HomeView = () => {
+            const [marketSelected, setMarketSelected] = React.useState("US");
 
+            return (
+                <div className="container">
+                    <div className="tabs is-centered">
+                        <ul>
+                            <li className={marketSelected == "US" ? "is-active" : ""} ><a onClick={() => { setMarketSelected("US") }}>US Market</a></li>
+                            <li className={marketSelected == "IND" ? "is-active" : ""} > <a onClick={() => { setMarketSelected("IND") }}>Indian Market</a></li>
+                        </ul>
+                    </div>
+                </div >
+            )
+        }
 
 
 
         ReactDOM.render(
             <React.StrictMode>
-                <Navbar page={true} />
+                <Navbar page={"Home"} />
+                <HomeView />
             </React.StrictMode>
             , document.getElementById('HomePage'));
     </script>
