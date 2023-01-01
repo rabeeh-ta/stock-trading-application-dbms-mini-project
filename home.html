@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' ; script-src 'self' ; style-src 'self' "> -->
+
+    <!-- React.js / Babel CDN docs -->
+    <script src="./src/reactDev.js" crossorigin></script>
+    <script src="./src/reactDocDev.js" crossorigin></script>
+    <script src='./src/babel.js'></script>
+    <!-- <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script> -->
+
+
+    <link rel="stylesheet" href="./src/bulmaMin.css">
+    <link href="./styles.css" rel="stylesheet">
+    <title>Home</title>
+
+</head>
+
+<body>
+    <div id="HomePage"></div>
+
+    <script src="./components/Navbar.js" type="text/babel"></script>
+    <script type="text/babel">
+
+
+
+
+
+        ReactDOM.render(
+            <React.StrictMode>
+                <Navbar page={true} />
+            </React.StrictMode>
+            , document.getElementById('HomePage'));
+    </script>
+
+
+
+</body>
+
+</html>

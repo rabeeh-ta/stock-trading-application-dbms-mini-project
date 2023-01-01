@@ -4,7 +4,7 @@
     background-color: #FAFAFA;
 }
 
-#LoginPage, #SignUpPage{
+#LoginPage, #SignUpPage, #HomePage{
 display: flex;
 }
 
