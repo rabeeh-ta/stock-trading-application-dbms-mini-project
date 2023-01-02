@@ -1,7 +1,7 @@
 /* logIn signUp page */
 
 *{
-    background-color: #FAFAFA;
+    background-color: #fafafa;
 }
 
 #LoginPage, #SignUpPage, #HomePage{
@@ -16,7 +16,7 @@ display: flex;
     overflow-x: scroll;
 }
 .container{
-    margin: 20px;
+    margin: 25px;
     width: 100%;
 }
 /* navigation component */
@@ -70,4 +70,8 @@ nav li:hover{
 .marketSelectionTab li{
 
     margin-right:10px;
+}
+
+.indexTable{
+    margin:20px;
 }

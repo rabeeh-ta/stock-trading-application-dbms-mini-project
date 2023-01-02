@@ -38,6 +38,30 @@
                             <li className={marketSelected == "IND" ? "is-active" : ""} > <a onClick={() => { setMarketSelected("IND") }}>Indian Market</a></li>
                         </ul>
                     </div>
+                    <div className="indexTable">
+                        <table className="table is-bordered is-striped  is-hoverable is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th style={{ width: "10%" }}>SL</th>
+                                    <th style={{ width: "15%" }}>Ticker</th>
+                                    <th style={{ width: "45%" }}>Name</th>
+                                    <th style={{ width: "15%" }}>Price</th>
+                                    <th style={{ width: "15%" }}>Change %</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>100</td>
+                                    <td>ITC</td>
+                                    <td>ITC</td>
+                                    <td>₹200</td>
+                                    <td>1.4%</td>
+                                </tr>
+                            </tbody>
+
+
+                        </table></div>
                 </div >
             )
         }
