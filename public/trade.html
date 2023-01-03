@@ -28,19 +28,42 @@
     <script type="text/babel">
 
         const TradePage = () => {
+            const [companySelected, setCompanySelected] = React.useState({});
+            const [companyIndex, setCompanyIndex] = React.useState();
+            const [searchResults, setSearchResults] = React.useState([]);
+
+
+            React.useEffect(() => {
+                window.backend.getCompanyIndexes().then((res) => setCompanyIndex(res));
+            }, []);
+
+            function selectingCompany(cuid) {
+                var foundCompany = {};
+                companyIndex.forEach(item => {
+                    if (item.cuid === cuid) foundCompany = item;
+                })
+                setCompanySelected(foundCompany);
+            }
+
+            function searchCompanies(query) {
+                setSearchResults(companyIndex.map((item) => {
+                    if (item.name.toLowerCase().includes(query) || item.symbol == query.toUpperCase()) {
+                        return (<li key={item.cuid}><a className="has-text-link has-text-weight-semibold" onClick={() => selectingCompany(item.cuid)}>{item.name}</a></li>)
+                    }
+                    return null
+                }))
+            }
+
             return (
                 <div className="container">
                     <div className="searchSection">
                         <nav>
-                            <input className="input is-rounded" type="text" placeholder="Search Company Name." />
+                            <input className="input is-rounded" type="text" onChange={(e) => searchCompanies(e.target.value)} placeholder="Search Company Name." />
                         </nav>
                         <div className="searchResults">
                             <aside className="menu">
                                 <ul className="menu-list">
-                                    <li><a>Customers</a></li>
-                                    <li><a>Customers</a></li>
-                                    <li><a>Customers</a></li>
-                                    <li><a>Customers</a></li>
+                                    {searchResults}
                                 </ul>
                             </aside>
                         </div>
@@ -48,20 +71,20 @@
 
                     <div className="tradeInfoCard">
                         <br />
-                        <p className="is-size-5">Ticker Symbol :</p>
-                        <p className="is-size-5">Company Name  :</p>
+                        <p className="is-size-5">Ticker Symbol : {companySelected.symbol}</p>
+                        <p className="is-size-5">Company Name  : {companySelected.name}</p>
                         <br />
-                        <p className="is-size-6">Current Price :</p>
-                        <p className="is-size-6">Todays Change % :</p>
+                        <p className="is-size-6">Current Price : ₹{companySelected.price_today}</p>
+                        <p className="is-size-6">Todays Change : {companySelected.change_percentage}%</p>
                         <br />
                         <p className="is-size-6">Your Total Holdings :</p>
                         <p className="is-size-6">Total Holding Value :</p>
                         <p className="is-size-6">Total Funds Balance :</p>
                         <br />
                         <div className="tradeTab">
-                            <input class="input is-small" type="text" placeholder="Enter Quantity." />
-                            <button class="button is-success is-small">BUY</button>
-                            <button class="button is-danger is-small">SELL</button>
+                            <input className="input is-small" type="text" placeholder="Enter Quantity." />
+                            <button className="button is-success is-small">BUY</button>
+                            <button className="button is-danger is-small">SELL</button>
                         </div>
                         <p className="is-italic m-2 has-text-danger">Lorem, ipsum dolor.</p>
                     </div>
