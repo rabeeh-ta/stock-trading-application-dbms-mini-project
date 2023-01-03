@@ -28,15 +28,16 @@
     <script type="text/babel">
 
         const TradePage = () => {
-            const [companySelected, setCompanySelected] = React.useState({});
-            const [companyIndex, setCompanyIndex] = React.useState();
-            const [searchResults, setSearchResults] = React.useState([]);
+            const [companySelected, setCompanySelected] = React.useState({});  // the company that we will trade on
+            const [companyIndex, setCompanyIndex] = React.useState(); // the copy of the entire index
+            const [searchResults, setSearchResults] = React.useState([]); // array of the current search string
 
 
             React.useEffect(() => {
                 window.backend.getCompanyIndexes().then((res) => setCompanyIndex(res));
             }, []);
 
+            // function will add the selected companies data to the trade execution card
             function selectingCompany(cuid) {
                 var foundCompany = {};
                 companyIndex.forEach(item => {
@@ -45,9 +46,10 @@
                 setCompanySelected(foundCompany);
             }
 
-            function searchCompanies(query) {
+            // finds the company by string matching either similar name OR symbol
+            function searchCompanies(searchString) {
                 setSearchResults(companyIndex.map((item) => {
-                    if (item.name.toLowerCase().includes(query) || item.symbol == query.toUpperCase()) {
+                    if (item.name.toLowerCase().includes(searchString) || item.symbol == searchString.toUpperCase()) {
                         return (<li key={item.cuid}><a className="has-text-link has-text-weight-semibold" onClick={() => selectingCompany(item.cuid)}>{item.name}</a></li>)
                     }
                     return null
@@ -70,8 +72,8 @@
                     </div>
 
                     <div className="tradeInfoCard">
-                        <br />
-                        <p className="is-size-5">Ticker Symbol : {companySelected.symbol}</p>
+
+                        <p className="is-size-5 mt-1">Ticker Symbol : {companySelected.symbol}</p>
                         <p className="is-size-5">Company Name  : {companySelected.name}</p>
                         <br />
                         <p className="is-size-6">Current Price : ₹{companySelected.price_today}</p>
