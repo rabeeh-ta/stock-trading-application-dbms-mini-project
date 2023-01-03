@@ -28,14 +28,53 @@
     <script type="text/babel">
 
         const HomeView = () => {
-            const [marketSelected, setMarketSelected] = React.useState("US");
+            const [marketSelected, setMarketSelected] = React.useState("us");
+            const [usCompElements, setUsCompElements] = React.useState();
+            const [inCompElements, setInCompElements] = React.useState();
+
+            React.useEffect(() => {
+                window.backend.getCompanyIndexes().then((res) => {
+                    setUsCompElements(
+                        res.map((item) => {
+                            if (item.market == "us") {
+                                return (
+                                    <tr>
+                                        <td>{item.sl_no}</td>
+                                        <td>{item.symbol}</td>
+                                        <td>{item.name}</td>
+                                        <td className="has-text-weight-bold">₹ {item.price_today}</td>
+                                        <td className={item.change_percentage < 0 ? "has-text-danger" : "has-text-success"}>{item.change_percentage} %</td>
+                                    </tr>
+                                )
+                            }
+
+                        })
+                    )
+                    setInCompElements(
+                        res.map((item) => {
+                            if (item.market == "in") {
+                                return (
+                                    <tr>
+                                        <td>{item.sl_no - 400}</td>
+                                        <td>{item.symbol}</td>
+                                        <td>{item.name}</td>
+                                        <td className="has-text-weight-bold">₹ {item.price_today}</td>
+                                        <td className={item.change_percentage < 0 ? "has-text-danger" : "has-text-success"}>{item.change_percentage} %</td>
+                                    </tr>
+                                )
+                            }
+
+                        })
+                    )
+                })
+            }, []);
 
             return (
                 <div className="container">
                     <div className="tabs is-centered">
                         <ul>
-                            <li className={marketSelected == "US" ? "is-active" : ""} ><a onClick={() => { setMarketSelected("US") }}>US Market</a></li>
-                            <li className={marketSelected == "IND" ? "is-active" : ""} > <a onClick={() => { setMarketSelected("IND") }}>Indian Market</a></li>
+                            <li className={marketSelected == "us" ? "is-active" : ""} ><a onClick={() => { setMarketSelected("us") }}>US Market</a></li>
+                            <li className={marketSelected == "in" ? "is-active" : ""} > <a onClick={() => { setMarketSelected("in") }}>Indian Market</a></li>
                         </ul>
                     </div>
                     <div className="indexTable">
@@ -44,20 +83,14 @@
                                 <tr>
                                     <th style={{ width: "10%" }}>SL</th>
                                     <th style={{ width: "15%" }}>Ticker</th>
-                                    <th style={{ width: "45%" }}>Name</th>
+                                    <th style={{ width: "40%" }}>Name</th>
                                     <th style={{ width: "15%" }}>Price</th>
-                                    <th style={{ width: "15%" }}>Change %</th>
+                                    <th style={{ width: "15%" }}>Chng %</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td>100</td>
-                                    <td>ITC</td>
-                                    <td>ITC</td>
-                                    <td>₹200</td>
-                                    <td>1.4%</td>
-                                </tr>
+                                {marketSelected == 'us' ? usCompElements : inCompElements}
                             </tbody>
 
 

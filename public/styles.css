@@ -16,7 +16,7 @@ display: flex;
     overflow-x: scroll;
 }
 .container{
-    margin: 25px;
+    margin: 20px;
     width: 100%;
 }
 /* navigation component */
@@ -73,5 +73,15 @@ nav li:hover{
 }
 
 .indexTable{
-    margin:20px;
+    margin:5px;
+    height: 560px;
+    overflow: scroll;
+
+}
+
+
+.indexTable tbody{
+    font-weight: 550;
+    font-size: 15px;
+    text-align: center;
 }
