@@ -4,9 +4,8 @@
     background-color: #fafafa;
 }
 
-#LoginPage, #SignUpPage, #HomePage{
+#LoginPage, #SignUpPage, #HomePage, #TradePage, #PortfolioPage,#FundsPage{
 display: flex;
-
 }
 
 .formView{
@@ -20,7 +19,7 @@ display: flex;
     width: 100%;
 }
 /* navigation component */
-nav{
+.navbar nav{
     background-color: #F5F5DC;
     width: 120px;
     height: 100vh;
@@ -30,21 +29,21 @@ nav{
     align-items: center;
     padding: 20px;
 }
-nav img{
+.navbar nav img{
     background-color: inherit;
     width: 70px;
 }
-nav ul{
+.navbar nav ul{
     background-color: inherit;
     margin-top:50px;
 }
-nav li{
+.navbar nav li{
     background-color: inherit;
     font-size: 19px;
     margin-top: 20px;
     font-weight: bold;
 }
-nav li:hover{
+.navbar nav li:hover{
    cursor: pointer;
    color: #86C8BC;
     font-size: 20px;
@@ -84,4 +83,14 @@ nav li:hover{
     font-weight: 550;
     font-size: 15px;
     text-align: center;
+}
+
+/* Trading page */
+
+.searchSection{
+    height: 250px;
+    background-color: rgb(102, 58, 58);
+}
+.searchSection nav input{
+    width: 400px;
 }
