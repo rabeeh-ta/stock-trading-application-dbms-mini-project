@@ -29,12 +29,16 @@
 
         const TradePage = () => {
             const [companySelected, setCompanySelected] = React.useState({});  // the company that we will trade on
+            const [userCompStockBalance, setUserCompStockBalance] = React.useState({});  // no of stocks the user own 
+            const [loggedInUser, setLoggedInUser] = React.useState() // uuid of the user currently loggedIn
             const [companyIndex, setCompanyIndex] = React.useState(); // the copy of the entire index
             const [searchResults, setSearchResults] = React.useState([]); // array of the current search string
-
+            const [stockQuantity, setStockQuantity] = React.useState(0); // transaction quantity
+            const [feedback, setFeedback] = React.useState({ "status": 0, "message": "some text" })
 
             React.useEffect(() => {
                 window.backend.getCompanyIndexes().then((res) => setCompanyIndex(res));
+                setLoggedInUser(sessionStorage.getItem("uuid"));
             }, []);
 
             // function will add the selected companies data to the trade execution card
@@ -43,7 +47,19 @@
                 companyIndex.forEach(item => {
                     if (item.cuid === cuid) foundCompany = item;
                 })
+
                 setCompanySelected(foundCompany);
+                window.backend.transactionsOnComp(loggedInUser, foundCompany.symbol).then((res) => {
+                    var qty = 0
+                    res.forEach(item => {
+                        if (item.order_type == 'buy') qty = qty + item.qty;
+                        if (item.order_type == 'sell') qty = qty - item.qty;
+                    })
+                    setUserCompStockBalance({
+                        "total_holding": qty,
+                        "total_holding_value": (qty * foundCompany.price_today)
+                    })
+                })
             }
 
             // finds the company by string matching either similar name OR symbol
@@ -54,6 +70,33 @@
                     }
                     return null
                 }))
+            }
+
+            // execute the order
+            function orderExecute(type) {
+                // execute order only if quantity is >0 and there is enough fund
+
+                if (stockQuantity > 0) {
+                    // buy order logic 
+                    if (type === "buy") {
+                        window.backend.executeOrder(loggedInUser, companySelected.symbol, stockQuantity, companySelected.price_today, type).then((res) => {
+                            setFeedback(res);
+                            window.location.reload();
+                        })
+
+                        // sell order logic
+                    } else if (type === "sell" && stockQuantity <= userCompStockBalance.total_holding) {
+                        window.backend.executeOrder(loggedInUser, companySelected.symbol, stockQuantity, companySelected.price_today, type).then((res) => {
+                            setFeedback(res);
+                            window.location.reload();
+                        })
+
+                    } else { // no enough balance qty to sell
+                        setFeedback({ status: 1, message: "Sell Order greater than Holding Balance." });
+                    }
+                } else { // 0 qty selected 
+                    setFeedback({ status: 1, message: "Order quantity should be more than 0." });
+                }
             }
 
             return (
@@ -79,19 +122,18 @@
                         <p className="is-size-6">Current Price : ₹{companySelected.price_today}</p>
                         <p className="is-size-6">Todays Change : {companySelected.change_percentage}%</p>
                         <br />
-                        <p className="is-size-6">Your Total Holdings :</p>
-                        <p className="is-size-6">Total Holding Value :</p>
+                        <p className="is-size-6">Your Total Holdings : {userCompStockBalance.total_holding} Quantity</p>
+                        <p className="is-size-6">Total Holding Value : ₹{userCompStockBalance.total_holding_value ? (userCompStockBalance.total_holding_value).toFixed(2) : ""}</p>
                         <p className="is-size-6">Total Funds Balance :</p>
                         <br />
                         <div className="tradeTab">
-                            <input className="input is-small" type="text" placeholder="Enter Quantity." />
-                            <button className="button is-success is-small">BUY</button>
-                            <button className="button is-danger is-small">SELL</button>
+                            <input className="input is-small" onChange={(e) => { setStockQuantity(Number(e.target.value)) }} type="text" placeholder="Enter Quantity." />
+                            <button className="button is-success is-small" onClick={() => orderExecute('buy')}>BUY</button>
+                            <button className="button is-danger is-small" onClick={() => orderExecute('sell')}>SELL</button>
                         </div>
-                        <p className="is-italic m-2 has-text-danger">Lorem, ipsum dolor.</p>
+                        <p className="is-italic m-2 has-text-danger">{feedback.status != 0 ? feedback.message : ''}</p>
                     </div>
                 </div>
-
             )
         }
 

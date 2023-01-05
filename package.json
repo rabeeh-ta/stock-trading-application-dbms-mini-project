@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "datetime-js": "^4.0.0",
     "short-uuid": "^4.2.2",
     "sql.js": "^1.8.0"
   }
