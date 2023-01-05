@@ -38,7 +38,7 @@
                         res.map((item) => {
                             if (item.market == "us") {
                                 return (
-                                    <tr>
+                                    <tr key={item.cuid}>
                                         <td>{item.sl_no}</td>
                                         <td>{item.symbol}</td>
                                         <td>{item.name}</td>
@@ -92,9 +92,8 @@
                             <tbody>
                                 {marketSelected == 'us' ? usCompElements : inCompElements}
                             </tbody>
-
-
-                        </table></div>
+                        </table>
+                    </div>
                 </div >
             )
         }

@@ -30,8 +30,9 @@
     <script type="text/babel">
 
         const FundsPage = () => {
-            const [userFundBalance, setUserFundBalance] = React.useState(0)
-            const [fundTransactions, setFundTransactions] = React.useState([]);
+            const [userFundBalance, setUserFundBalance] = React.useState(0) // user fund balance
+            const [fundTransactions, setFundTransactions] = React.useState([]); // user fund dep and withdraw transactions
+            const [transactionTableElements, setTransactionTableElements] = React.useState([]); // user fund dep and withdraw transactions
 
             React.useEffect(() => {
                 window.backend.fundTransactionHistory(sessionStorage.getItem('uuid')).then((res) => {
@@ -44,7 +45,19 @@
                         else if (item.type == 'Withdraw') fundBalance = fundBalance - item.amount;
                     })
                     setUserFundBalance(fundBalance);
-                    // render the transactions history 
+                    // render the transactions history in table
+                    res.reverse();
+                    setTransactionTableElements(res.map((item) => {
+                        return (
+                            <tr key={item.tuid}>
+                                <th>{res.indexOf(item) + 1}</th>
+                                <th>{item.date}</th>
+                                <th>{(item.amount).toFixed(2)}</th>
+                                <th className={item.type == 'Withdraw' ? "has-text-danger" : "has-text-success"}>{item.type}</th>
+                            </tr>
+                        )
+                    }))
+
                 });
             }, []);
 
@@ -66,16 +79,33 @@
                     });
             }
 
-            return (<div className="container">
-                <div className="fundsSummaryCard has-text-centered">
-                    <p className="is-size-2 mt-1 ml-3">Funds Balance </p>
-                    <p className="is-size-3 mt-1 ml-5 has-text-weight-bold">₹ {userFundBalance.toFixed(2)} </p>
-                    <div className="tradeTab is-flex is-justify-content-center mt-4">
-                        <button className="button is-success is-normal" onClick={() => handleFundTransaction('Deposit')}>Deposit</button>
-                        <button className="button is-link is-normal" onClick={() => handleFundTransaction('Withdraw')} >Withdraw</button>
+            return (
+                <div className="container">
+                    <div className="fundsSummaryCard has-text-centered">
+                        <p className="is-size-2 mt-1 ml-3">Funds Balance </p>
+                        <p className="is-size-3 mt-1 ml-5 has-text-weight-bold">₹ {userFundBalance.toFixed(2)} </p>
+                        <div className="tradeTab is-flex is-justify-content-center mt-4">
+                            <button className="button is-success is-normal" onClick={() => handleFundTransaction('Deposit')}>Deposit</button>
+                            <button className="button is-link is-normal" onClick={() => handleFundTransaction('Withdraw')} >Withdraw</button>
+                        </div>
                     </div>
-                </div>
-            </div>)
+                    <div className="fundTransactionsTable">
+                        <table className="table is-bordered is-striped  is-hoverable is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th style={{ width: "10%" }}>SL</th>
+                                    <th style={{ width: "20%" }}>Date</th>
+                                    <th style={{ width: "30%" }}>Amount</th>
+                                    <th style={{ width: "20%" }}>Type</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {transactionTableElements}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>)
         }
 
 
