@@ -121,7 +121,7 @@ text-align: center;
 .tradeTab{
     display: flex;
 }
-.tradeTab > *{
+.tradeTab > button, span{
 margin-left: 10px;
 
 }
