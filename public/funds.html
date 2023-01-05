@@ -10,6 +10,8 @@
     <script src="./src/reactDev.js" crossorigin></script>
     <script src="./src/reactDocDev.js" crossorigin></script>
     <script src='./src/babel.js'></script>
+    <!-- sweet alert() -->
+    <script src="./src/sweetAlert.js"></script>
     <!-- <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script> -->
@@ -28,7 +30,52 @@
     <script type="text/babel">
 
         const FundsPage = () => {
-            return (<h1>hello</h1>)
+            const [userFundBalance, setUserFundBalance] = React.useState(0)
+            const [fundTransactions, setFundTransactions] = React.useState([]);
+
+            React.useEffect(() => {
+                window.backend.fundTransactionHistory(sessionStorage.getItem('uuid')).then((res) => {
+                    // save the transactions
+                    setFundTransactions(res)
+                    //calculate the fund balance of the user
+                    var fundBalance = 0
+                    res.forEach((item) => {
+                        if (item.type == 'Deposit') fundBalance = fundBalance + item.amount;
+                        else if (item.type == 'Withdraw') fundBalance = fundBalance - item.amount;
+                    })
+                    setUserFundBalance(fundBalance);
+                    // render the transactions history 
+                });
+            }, []);
+
+            function handleFundTransaction(type) {
+                swal(`Enter Amount to ${type}.`, {
+                    content: "input",
+                })
+                    .then((amount) => {
+                        if (amount === null) {
+                            swal("Transaction Cancelled.");
+                        } else if (Number(amount) <= 0) {
+                            swal("Amount should be greater than zero.");
+                        } else {
+                            window.backend.fundTransaction(sessionStorage.getItem('uuid'), type, Number(amount)).then((res) => {
+                                swal("Transaction SuccessFul.");
+                                window.location.reload();
+                            })
+                        }
+                    });
+            }
+
+            return (<div className="container">
+                <div className="fundsSummaryCard has-text-centered">
+                    <p className="is-size-2 mt-1 ml-3">Funds Balance </p>
+                    <p className="is-size-3 mt-1 ml-5 has-text-weight-bold">₹ {userFundBalance} </p>
+                    <div className="tradeTab is-flex is-justify-content-center mt-4">
+                        <button className="button is-success is-normal" onClick={() => handleFundTransaction('Deposit')}>Deposit</button>
+                        <button className="button is-link is-normal" onClick={() => handleFundTransaction('Withdraw')} >Withdraw</button>
+                    </div>
+                </div>
+            </div>)
         }
 
 

@@ -58,7 +58,7 @@ CREATE TABLE FUND_TRANSACTIONS(
     uuid TEXT, -- who made the deposite
     type TEXT, -- DEPosite or WITHdrawal 
     amount INTEGER,
-    date TEXT -- ('yyyy-MM-dd HH:mm:ss') ISO8601
+    date TEXT -- ('dd-mm-yyyy') ISO8601
 );
 
 

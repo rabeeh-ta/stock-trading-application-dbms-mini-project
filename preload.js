@@ -7,6 +7,7 @@ const {
 } = require('./backend/queryCompanies');
 const { executeOrder } = require('./backend/orders');
 const { transactionsOnComp } = require('./backend/portfolioQueries');
+const { fundTransaction, fundTransactionHistory } = require('./backend/funds');
 
 const fs = require('fs');
 const initSqlJs = require('sql.js');
@@ -67,4 +68,6 @@ contextBridge.exposeInMainWorld('backend', {
   getCompanyIndexes: getCompanyIndexes,
   executeOrder: executeOrder,
   transactionsOnComp: transactionsOnComp,
+  fundTransaction: fundTransaction,
+  fundTransactionHistory: fundTransactionHistory,
 });
