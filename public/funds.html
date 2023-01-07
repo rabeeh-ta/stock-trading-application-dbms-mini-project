@@ -66,12 +66,22 @@
                     content: "input",
                 })
                     .then((amount) => {
-                        if (amount === null) {
+                        if (amount === null) { // payment popup closed
                             swal("Transaction Cancelled.");
                         } else if (Number(amount) <= 0) {
                             swal("Amount should be greater than zero.");
-                        } else {
-                            window.backend.fundTransaction(sessionStorage.getItem('uuid'), type, Number(amount)).then((res) => {
+                        } else if (type == 'Withdraw') { // withdrawal request
+                            if ((Number(amount) >= userFundBalance)) { // withdrawing more money than balance
+                                swal("Insufficient Balance.");
+                                return;
+
+                            }// successful withdrawal 
+                            window.backend.fundTransaction(sessionStorage.getItem('uuid'), 'Withdraw', Number(amount)).then((res) => {
+                                swal("Transaction SuccessFul.");
+                                window.location.reload();
+                            })
+                        } else { // depositing money to account 
+                            window.backend.fundTransaction(sessionStorage.getItem('uuid'), "Deposit", Number(amount)).then((res) => {
                                 swal("Transaction SuccessFul.");
                                 window.location.reload();
                             })
