@@ -74,4 +74,33 @@ const getCompanyIndexes = () => {
   });
 };
 
-module.exports = { getIndCompanies, getUsCompanies, getCompanyIndexes };
+const currentStockPrice = (symbol) => {
+  return new Promise((res, rej) => {
+    initSqlJs().then(function (SQL) {
+      //! read the database to the JS memory
+      const filebuffer = fs.readFileSync('./backend/database.sqlite'); // location relative to the root file where the application runs
+      const db = new SQL.Database(filebuffer);
+      const usCompanies = [];
+
+      var query = db.prepare(
+        'SELECT * FROM COMPANY_INDEXES WHERE symbol = $symbol;'
+      );
+      let queryResult = query.getAsObject({
+        $symbol: symbol,
+      });
+
+      //! write the database file back to storage from JS memory
+      var data = db.export();
+      var buffer = new Buffer.from(data);
+      fs.writeFileSync('./backend/database.sqlite', buffer);
+      return res(queryResult);
+    });
+  });
+};
+
+module.exports = {
+  getIndCompanies,
+  getUsCompanies,
+  getCompanyIndexes,
+  currentStockPrice,
+};

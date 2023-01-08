@@ -4,9 +4,13 @@ const {
   getIndCompanies,
   getUsCompanies,
   getCompanyIndexes,
+  currentStockPrice,
 } = require('./backend/queryCompanies');
 const { executeOrder } = require('./backend/orders');
-const { transactionsOnComp } = require('./backend/portfolioQueries');
+const {
+  transactionsOnComp,
+  allTransactions,
+} = require('./backend/portfolioQueries');
 const { fundTransaction, fundTransactionHistory } = require('./backend/funds');
 
 const fs = require('fs');
@@ -70,4 +74,6 @@ contextBridge.exposeInMainWorld('backend', {
   transactionsOnComp: transactionsOnComp,
   fundTransaction: fundTransaction,
   fundTransactionHistory: fundTransactionHistory,
+  allTransactions: allTransactions,
+  currentStockPrice: currentStockPrice,
 });

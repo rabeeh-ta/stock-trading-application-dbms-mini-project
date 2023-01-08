@@ -59,6 +59,7 @@
           console.log(res)
           if (res.status != 0) return setFeedback(res); // some error happened.
           sessionStorage.setItem("uuid", res.uuid); // user created and id saved to storage.
+          window.location.replace('./home.html');
         })
       }
 
