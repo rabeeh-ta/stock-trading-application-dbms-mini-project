@@ -44,7 +44,13 @@ function Navbar(props) {
           <ul></ul>
         )}
 
-        <img src="./src/logo.png" alt="" />
+        <img
+          src="./src/logo.png"
+          alt=""
+          onClick={() => {
+            window.location.replace('./index.html');
+          }}
+        />
       </nav>
     </div>
   );
