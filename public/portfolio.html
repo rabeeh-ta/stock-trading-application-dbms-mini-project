@@ -83,13 +83,16 @@
                         window.backend.currentStockPrice(item.symbol).then(res => {
                             var totalHoldingValue = Number((item.qty * res.price_today).toFixed(2));
                             // newData.push({ ...item, "priceToday": res.price_today, "totalHoldingValue": totalHoldingValue });
-                            newData.push(
-                                <tr key={res.cuid}>
-                                    <td>{item.symbol}</td>
-                                    <td>{item.qty}</td>
-                                    <td>₹ {res.price_today}</td>
-                                    <td className="has-text-weight-bold">₹ {totalHoldingValue}</td>
-                                </tr>)
+                            if (item.qty != 0) {
+                                newData.push(
+                                    <tr key={res.cuid}>
+                                        <td>{item.symbol}</td>
+                                        <td>{item.qty}</td>
+                                        <td>₹ {res.price_today}</td>
+                                        <td className="has-text-weight-bold">₹ {totalHoldingValue}</td>
+                                    </tr>)
+                            }
+
                             setUserStockValue(prevData => (prevData = prevData + totalHoldingValue));
                             setUserStockHoldingsElements(newData)
                         })
@@ -97,10 +100,6 @@
                 }
             }, [userPortfolioStocks])
 
-
-            function compdetails() {
-                console.log(userStockHoldingsElements);
-            }
 
             return (
                 <div className="container">
