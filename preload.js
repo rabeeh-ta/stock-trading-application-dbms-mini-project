@@ -37,7 +37,7 @@ const marketSimulation = () => {
     var count = 1;
     while (comp.step()) {
       var row = comp.getAsObject();
-      var changePercent = changePercentFunc(0, 3);
+      var changePercent = changePercentFunc(0, 1);
       var price_yesterday = row.price_today;
       var changeAmount = (row.price_today * Number(changePercent)).toFixed(2);
       var price_today = Number(

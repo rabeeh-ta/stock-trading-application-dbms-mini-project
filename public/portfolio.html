@@ -11,6 +11,7 @@
     <script src="./src/reactDocDev.js" crossorigin></script>
     <script src='./src/babel.js'></script>
     <script src="./src/chart.js"></script>
+    <script src="./src/uniqolor.js"></script>
     <!-- <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script> -->
@@ -25,8 +26,55 @@
 <body>
     <div id="PortfolioPage"></div>
 
+
     <script src="./components/Navbar.js" type="text/babel"></script>
     <script type="text/babel">
+
+        const ChartCanvas = (labels, data, count) => {
+            console.log('hel');
+            console.log(labels, data);
+            console.log(count);
+
+            new Chart("chartCanvas", {
+                type: "doughnut",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Qty',
+                        data: data,
+                        backgroundColor: [
+                            "rgb(244, 67, 54)",
+                            "rgb(232, 30, 99)",
+                            "rgb(156, 39, 176)",
+                            "rgb(103, 58, 183)",
+                            "rgb(63, 81, 181)",
+                            "rgb(33, 150, 243)",
+                            "rgb(3, 169, 244)",
+                            "rgb(0, 188, 212)",
+                            "rgb(0, 150, 136)",
+                            "rgb(76, 175, 80)",
+                            "rgb(139, 195, 74)",
+                            "rgb(205, 220, 57)",
+                            "rgb(255, 235, 59)",
+                            "rgb(255, 193, 7)",
+                            "rgb(255, 152, 0)",
+                            "rgb(255, 87, 34)",
+                            "rgb(121, 85, 72)",
+                            "rgb(158, 158, 158)",
+                            "rgb(96, 125, 139)",
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
 
         const PortfolioPage = () => {
             const [userFundBalance, setUserFundBalance] = React.useState(0); // user fund balance
@@ -71,6 +119,7 @@
                     })
                     setUserPortfolioStocks(portfolioStockBalance);
                 })
+
             }, []);
 
             // get current price of the stock
@@ -79,11 +128,15 @@
                     return;
                 else {
                     var newData = []
+                    var labels = []
+                    var data = []; // data for chart 
                     userPortfolioStocks.forEach((item) => {
                         window.backend.currentStockPrice(item.symbol).then(res => {
                             var totalHoldingValue = Number((item.qty * res.price_today).toFixed(2));
                             // newData.push({ ...item, "priceToday": res.price_today, "totalHoldingValue": totalHoldingValue });
                             if (item.qty != 0) {
+                                labels.push(item.symbol);
+                                data.push(item.qty);
                                 newData.push(
                                     <tr key={res.cuid}>
                                         <td>{item.symbol}</td>
@@ -94,9 +147,10 @@
                             }
 
                             setUserStockValue(prevData => (prevData = prevData + totalHoldingValue));
-                            setUserStockHoldingsElements(newData)
+                            setUserStockHoldingsElements(newData);
                         })
                     })
+                    ChartCanvas(labels, data, labels.length);
                 }
             }, [userPortfolioStocks])
 
@@ -112,6 +166,7 @@
                             <p className="is-size-5">Funds Value: <span className="has-text-weight-bold">₹ {userFundBalance}</span> </p>
                         </div>
                         <div className="chartSection">
+                            <canvas id="chartCanvas" style={{ width: '100%', height: '100%' }} />
                         </div>
                     </div>
 
