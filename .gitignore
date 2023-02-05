@@ -2,5 +2,3 @@
 .vscode
 /node_modules
 /data_resource
-
-out/

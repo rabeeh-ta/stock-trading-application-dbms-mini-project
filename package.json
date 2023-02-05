@@ -4,9 +4,7 @@
   "description": "Paper trade your favorite stocks.",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "start": "electron ."
   },
   "repository": "https://github.com/rabeeh-ta/stock-trading-application-dbms-mini-project",
   "keywords": [
@@ -19,17 +17,11 @@
   "author": "Rabeeh T A",
   "license": "MIT",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.4",
-    "@electron-forge/maker-deb": "^6.0.4",
-    "@electron-forge/maker-rpm": "^6.0.4",
-    "@electron-forge/maker-squirrel": "^6.0.4",
-    "@electron-forge/maker-zip": "^6.0.4",
     "electron": "^22.0.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "datetime-js": "^4.0.0",
-    "electron-squirrel-startup": "^1.0.0",
     "short-uuid": "^4.2.2",
     "sql.js": "^1.8.0"
   }
